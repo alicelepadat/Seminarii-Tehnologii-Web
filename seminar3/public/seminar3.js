@@ -72,3 +72,18 @@ function mapCube(array, cube) {
 function callMapCube() {
     return mapCube([1, 2, 3, 4], cube);
 }
+
+//TEMA:
+//factorialul unui nr:
+function noFactorial(number) {
+    if (number === 0) {
+        console.log(1);
+    }
+    else {
+        let result = 1;
+        for (let i = 1; i <= number; i++) {
+            result = result * i;
+        }
+        console.log(result);
+    }
+}
