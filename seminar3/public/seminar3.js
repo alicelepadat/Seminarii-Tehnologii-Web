@@ -128,8 +128,7 @@ var object = array.find(item => item.id === 1); //imi returneaza un elem dintr u
 
 
 //functia reduce - imi ia toate elem din array, foloseste o functie definita de utilizatr, aplica functia pe elem din array si returneaza p sg valoare
-
-
+//factorial
 
 function logArray() {
     //console.log(numbers);
@@ -153,4 +152,18 @@ function noFactorial(number) {
         }
         console.log(result);
     }
+}
+
+
+function reduceFunction(a, b) {
+    return a * b;
+}
+
+function doFactorial(array, reduceFunction) {
+    var result = array.reduce(reduceFunction);
+    console.log(result);
+}
+
+function logFactorial() {
+    doFactorial(numbers, reduceFunction);
 }
