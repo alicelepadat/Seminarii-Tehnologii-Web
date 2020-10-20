@@ -128,7 +128,20 @@ var object = array.find(item => item.id === 1); //imi returneaza un elem dintr u
 
 
 //functia reduce - imi ia toate elem din array, foloseste o functie definita de utilizatr, aplica functia pe elem din array si returneaza p sg valoare
-//factorial
+//suma tutror numerelor din array
+function reduceFunc(a, b) {
+    return a + b;
+}
+
+function doSum(array, reduceFunc){
+    var result = array.reduce(reduceFunc);
+    console.log(result);
+}
+
+function logSum(){
+    console.log(numbers);
+    doSum(numbers, reduceFunc);
+}
 
 function logArray() {
     //console.log(numbers);
@@ -165,5 +178,6 @@ function doFactorial(array, reduceFunction) {
 }
 
 function logFactorial() {
+    console.log(numbers);
     doFactorial(numbers, reduceFunction);
 }
