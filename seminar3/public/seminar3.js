@@ -73,6 +73,73 @@ function callMapCube() {
     return mapCube([1, 2, 3, 4], cube);
 }
 
+//functie anonima - o cream in apelul unei alte functii
+function callMapCubeWithAnon() {
+    return mapCube([1, 2, 3, 4, 5, 6, 7], (number) => Math.pow(number, 3));
+}
+
+function consoleLoop(number) {
+    console.log(number);
+    if (number >= 10) {
+        return;
+    }
+    //recursivitate - reapelam functia - incrementam nr
+    consoleLoop(number + 1);
+}
+
+//nested function - functii in functii:
+//calcul patretele a doua nr si apoi le aduna
+function addSquares(a, b) {
+    function square(number) {
+        return Math.pow(number, 2);
+    }
+    console.log(square(a) + square(b));
+}
+
+function outsideFunction(x) {
+    function insideFunction(y) {
+        return x * y;
+    }
+    return insideFunction;
+    //outsideFunction se poate apela in doua moduri
+    //outsideFunction(param)(param2), unde param2 este parametrul pt insideFunction
+}
+
+function calculate() {
+    //var inside = outsideFunction(4);
+    //console.log(inside(5));
+    console.log(outsideFunction(4)(5));
+}
+
+//arrow functions
+//functia map - returneaza un array nou format cu obiectele array ul vechi dar modificate
+var numbers = [1, 2, 3, 4];
+var newNumbers = numbers.map(number => number + 1); //primeste ca parametru un arrow function care modifica cumva elementule unui array
+
+var array = [
+    { id: 1, name: "Ana", age: 23 },
+    { id: 2, name: "Maria", age: 20 },
+    { id: 3, name: "Marius", age: 21 }
+]
+//filter face un array nou-primeste o conditie pt a filtra array ul existent
+var filteredArray = array.filter(item =>
+    item.name === "Ana" || item.name === "Maria");
+var object = array.find(item => item.id === 1); //imi returneaza un elem dintr un array
+
+
+//functia reduce - imi ia toate elem din array, foloseste o functie definita de utilizatr, aplica functia pe elem din array si returneaza p sg valoare
+
+
+
+function logArray() {
+    //console.log(numbers);
+    //console.log(newNumbers);
+    console.log(array);
+    console.log(filteredArray);
+    console.log(object);
+}
+
+
 //TEMA:
 //factorialul unui nr:
 function noFactorial(number) {
