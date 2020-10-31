@@ -1,0 +1,46 @@
+#renderTable {
+    border: 1px solid black;
+    margin-top: 20px;
+}
+
+td, tr {
+    border: 1px solid black;
+}
+
+#addPostForm {
+    margin-top: 10px;
+    width: 30%;
+    padding: 10px;
+    background-color: aliceblue;
+    border-radius: 10px;
+}
+
+label {
+    display: block;
+    float: left;
+    clear: both;
+    width: 35%;
+}
+
+input {
+    display: block;
+    float: right;
+    width: 65%;
+}
+
+#addPostButton, #editPostButton {
+    margin-top: 10px;
+    background-color: cornflowerblue;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+#getPostsButton {
+    float: center;
+    margin-top: 10px;
+    background-color: green ;
+    border-radius: 20px;
+    cursor: pointer;
+}
