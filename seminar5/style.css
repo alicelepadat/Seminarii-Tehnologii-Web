@@ -1,0 +1,30 @@
+#renderTable {
+    border: 1px solid black;
+    margin-top: 20px;
+}
+
+td, tr {
+    border: 1px solid black;
+}
+
+#postForm {
+    margin-top: 10px;
+    width: 30%;
+}
+
+label {
+    display: block;
+    float: left;
+    clear: both;
+    width: 35%;
+}
+
+input {
+    display: block;
+    float: right;
+    width: 65%;
+}
+
+#postButton {
+    margin-top: 10px;
+}
