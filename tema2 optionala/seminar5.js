@@ -11,15 +11,19 @@ const link = "https://jsonplaceholder.typicode.com/posts/";
 
 
 //cerinta 1
-var posts = axios.get(link).
-    then(response => response.data).
-    then(data => {
-        //console.log(data); //afisare posts la consola
-        renderTable(data); //populare tabel
-        return data; //return posts pentru a folosi ulterior variabila
-    })
-    .catch(err => console.log(err));
+async function getPosts() {
+    try {
+        const posts = (await axios.get(link)).data;
+        return posts;
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
 
+var posts = getPosts().
+    then(posts => renderTable(posts))
+    .catch(err => console.log(err));
 
 async function createPost(post) {
     const response = (await axios.post(
@@ -34,24 +38,9 @@ async function createPost(post) {
     return response;
 }
 
-function callCreatePostwithInsert(post) {
-    createPost(post).then(posts => {
-        posts.push(post); //adaugam un nou post - ne folosim de variabila in care am stocat array-ul de posts
-        renderTable(posts);
-    });
-}
-
 async function deletePosts(postId) {
     const response = (await axios.delete(link + postId)).data;
     return response;
-}
-
-function callDeletePosts() {
-    deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
-}
-
-function callDeletePost(postId) {
-    deletePosts(postId).then(resp => console.log(resp)).catch(err => console.log(err));
 }
 
 function renderTable(posts) {
@@ -118,4 +107,19 @@ function addPostForm(event) {
     callCreatePostwithInsert(
         { id: 11, userId: userId, title: title, body: body }
     );
+}
+
+function callCreatePostwithInsert(post) {
+    createPost(post).then(posts => {
+        posts.push(post); //adaugam un nou post - ne folosim de variabila in care am stocat array-ul de posts
+        renderTable(posts);
+    });
+}
+
+function callDeletePosts() {
+    deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
+}
+
+function callDeletePost(postId) {
+    deletePosts(postId).then(resp => console.log(resp)).catch(err => console.log(err));
 }
