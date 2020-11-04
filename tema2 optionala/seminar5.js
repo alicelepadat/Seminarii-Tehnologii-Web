@@ -1,23 +1,25 @@
 /*Tema speciala 2: 
 a) Să se declare și să se folosească o variabilă ce va tine toate postarile utilizate in document. 
-    Api-ul de get se va apela o singura data, la început
+    Api-ul de get se va apela o singura data, la început -DONE
 b) Să se implementeze mecanismul de edit, folosind principiile mecanismului de create. Asta presupune:
     - Crearea unui api axios de PUT
-    - Crearea unui buton de edit, langa cel de delete
-    - Crearea unui form ce va primi și va edita informațiile obiectului curent
+    - Crearea unui buton de edit, langa cel de delete DONE
+    - Crearea unui form ce va primi și va edita informațiile obiectului curent DONE
     - Actualizarea informațiilor și reconstruirea tabelului*/
 
-const link = "https://jsonplaceholder.typicode.com/posts/"; 
+const link = "https://jsonplaceholder.typicode.com/posts/";
 
-async function getPosts() {
-    try {
-        const posts = (await axios.get(link)).data;
-        return posts;
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
+
+//cerinta 1
+var posts = axios.get(link).
+    then(response => response.data).
+    then(data => {
+        //console.log(data); //afisare posts la consola
+        renderTable(data); //populare tabel
+        return data; //return posts pentru a folosi ulterior variabila
+    })
+    .catch(err => console.log(err));
+
 
 async function createPost(post) {
     const response = (await axios.post(
@@ -32,11 +34,25 @@ async function createPost(post) {
     return response;
 }
 
+function callCreatePostwithInsert(post) {
+    createPost(post).then(posts => {
+        posts.push(post); //adaugam un nou post - ne folosim de variabila in care am stocat array-ul de posts
+        renderTable(posts);
+    });
+}
+
 async function deletePosts(postId) {
     const response = (await axios.delete(link + postId)).data;
     return response;
 }
 
+function callDeletePosts() {
+    deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
+}
+
+function callDeletePost(postId) {
+    deletePosts(postId).then(resp => console.log(resp)).catch(err => console.log(err));
+}
 
 function renderTable(posts) {
     const existentTable = document.getElementById("renderTable");
@@ -59,12 +75,13 @@ function renderTable(posts) {
 
     posts.forEach((post, index, self) => {
         var bodyRow = document.createElement("tr");
+
         for (prop in post) {
             var bodyCell = document.createElement("td");
             bodyCell.appendChild(document.createTextNode(post[prop]));
             bodyRow.appendChild(bodyCell);
         }
-    
+
         var deleteButtonCell = document.createElement("td");
         var deletebutton = document.createElement("button");
         deletebutton.textContent = "Delete";
@@ -88,39 +105,17 @@ function renderTable(posts) {
     document.body.appendChild(table);
 }
 
-function addPostForm(event){
+function addPostForm(event) {
     event.preventDefault();
-    const userId=document.getElementById("postUserID").value;
-    const title=document.getElementById("postTitle").value;
-    const body=document.getElementById("postBody").value;
+    const userId = document.getElementById("postUserID").value;
+    const title = document.getElementById("postTitle").value;
+    const body = document.getElementById("postBody").value;
 
-    if(!userId || !title || !body || userId <= 0) {
+    if (!userId || !title || !body || userId <= 0) {
         return;
     }
 
     callCreatePostwithInsert(
-        {id: 11, userId: userId, title: title, body: body}
+        { id: 11, userId: userId, title: title, body: body }
     );
-}
-
-function callGetPosts() {
-    getPosts().then(posts => renderTable(posts))
-        .catch(err => console.log(err));
-}
-
-function callCreatePostwithInsert(post) {
-    createPost(post).then(post => {
-        getPosts().then(posts=>{
-            posts.push(post);
-            renderTable(posts);
-        });
-    })
-}
-
-function callDeletePosts() {
-    deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
-}
-
-function callDeletePost(postId) {
-    deletePosts(postId).then(resp => console.log(resp)).catch(err => console.log(err));
 }
