@@ -149,6 +149,7 @@ function renderTable(posts) {
 
     document.body.appendChild(table);
 }
+//---CERINTA 2---
 
 async function createPost(post) {
     const response = (await axios.post(
