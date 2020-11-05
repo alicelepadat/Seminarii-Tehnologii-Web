@@ -46,7 +46,8 @@ async function deletePosts(postId) {
     return response;
 }
 
-async function editPost(postId) {
+//----CERINTA 2---
+async function getSelectedPost(postId) {
     const response = (await axios.get(link + postId)).data;
     return response;
 }
@@ -92,17 +93,19 @@ function renderTable(posts) {
         deleteButtonCell.appendChild(deletebutton);
         bodyRow.appendChild(deleteButtonCell);
 
+        //---BUTON EDIT---
         var editButtonCell = document.createElement("td");
         var editButton = document.createElement("button");
         editButton.textContent = "Edit";
 
         editButton.addEventListener("click", () => {
-            callFillEditForm(post.id);
-            //renderTable(self);
+            fillEditForm(post.id);
+            
         })
 
         editButtonCell.appendChild(editButton);
         bodyRow.appendChild(editButtonCell);
+        //---BUTON EDIT---
 
         tableBody.appendChild(bodyRow);
     });
@@ -131,10 +134,33 @@ function addPostForm(event) {
     );
 }
 
-function submitEditPost(event) {
-    event.preventDefault();
+//---CERINTA 2---
+var editUserId = document.getElementById("editpostUserID");
+var editTitle = document.getElementById("editpostTitle");
+var editBody = document.getElementById("editpostBody");
 
+function fillEditForm(postId) {
+    getSelectedPost(postId).then(resp => {
+        //console.log(resp);
+        editUserId.value = resp.userId;
+        editTitle.value = resp.title;
+        editBody.value = resp.body;
+        return postId;
+    }).catch(err => console.log(err));
+}
+
+
+function editPostForm(event) {
+    event.preventDefault();
     
+    var newUserID = editUserId.value;
+    var newTitle = editTitle.value;
+    var newBody = editBody.value;
+
+    if (!newUserID || !newTitle || !newBody || newUserID <= 0) {
+        return;
+    }
+
 }
 
 function callGetPosts() {
@@ -161,18 +187,6 @@ function callDeletePosts() {
     deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
 }
 
-function callFillEditForm(postId) {
-    editPost(postId).then(resp => {
-        //console.log(resp);
-        var editUserId = document.getElementById("editpostUserID");
-        var editTitle = document.getElementById("editpostTitle");
-        var editBody = document.getElementById("editpostBody");
-        editUserId.value = resp.userId;
-        editTitle.value = resp.title;
-        editBody.value = resp.body;
-        return resp;
-    }).catch(err => console.log(err));
-}
 
 function callDeletePost(postId) {
     deletePosts(postId).then(resp => console.log(resp)).catch(err => console.log(err));
