@@ -9,14 +9,8 @@ b) Să se implementeze mecanismul de edit, folosind principiile mecanismului de 
 const link = "https://jsonplaceholder.typicode.com/posts/";
 
 
-/*var tablePosts = getPosts().
-    then(posts => {
-        console.log(posts)
-        renderTable(posts);
-    })
-    .catch(err => console.log(err));
- 
-*/
+//---CERINTA 1---
+var Posts = []; //array - stocheaza posturile response din API
 
 async function getPosts() {
     try {
@@ -27,31 +21,65 @@ async function getPosts() {
         console.log(err);
     }
 }
-
-async function createPost(post) {
-    const response = (await axios.post(
-        link,
-        post,
-        {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    )).data;
-    return response;
+//apel getPosts o singura data
+function callGetPosts() {
+    getPosts().then(resp => resp.forEach(post => {
+        Posts.push(post);
+        renderTable(Posts);
+    }))/*.then(console.log(Posts))*/
+        .catch(err => console.log(err));
 }
+//---CERINTA 1---
 
-async function deletePosts(postId) {
-    const response = (await axios.delete(link + postId)).data;
-    return response;
-}
+//---CERINTA 2---
+var selectedPost = []; //ultimul post selectat din tabel
 
-//----CERINTA 2---
 async function getSelectedPost(postId) {
     const response = (await axios.get(link + postId)).data;
     return response;
 }
 
+var editUserId = document.getElementById("editpostUserID");
+var editTitle = document.getElementById("editpostTitle");
+var editBody = document.getElementById("editpostBody");
+
+async function putPost(post) {
+    const response = (await axios.put(link + post.id,
+        { id: post.id, userId: editUserId.value, title: editTitle.value, body: editBody.value })).data;
+    return response;
+}
+
+function callPutPost(post, index) {
+        putPost(post).then(post => {
+            //console.log(post);
+            Posts[index] = post; //retinem post-ul pe care vrem sa il modificam 
+            renderTable(Posts);
+        }).catch(err => console.log(err));
+}
+
+function fillEditForm(postId) {
+    getSelectedPost(postId).then(resp => {
+        //console.log(resp);
+        editUserId.value = resp.userId;
+        editTitle.value = resp.title;
+        editBody.value = resp.body;
+    }).then().catch(err => console.log(err));
+}
+
+function editPostForm(event) {
+    event.preventDefault();
+
+    var newUserID = editUserId.value;
+    var newTitle = editTitle.value;
+    var newBody = editBody.value;
+
+    if (!newUserID || !newTitle || !newBody || newUserID <= 0) {
+        return;
+    }
+    else {
+        callPutPost(selectedPost, selectedPost.index);
+    }
+}
 
 function renderTable(posts) {
     const existentTable = document.getElementById("renderTable");
@@ -100,7 +128,11 @@ function renderTable(posts) {
 
         editButton.addEventListener("click", () => {
             fillEditForm(post.id);
-            
+            selectedPost.index = index; //retinem indexul la care modificam
+            selectedPost.id = post.id;
+            selectedPost.userId = post.userId;
+            selectedPost.title = post.title;
+            selectedPost.body = post.bodyC;
         })
 
         editButtonCell.appendChild(editButton);
@@ -118,6 +150,23 @@ function renderTable(posts) {
     document.body.appendChild(table);
 }
 
+async function createPost(post) {
+    const response = (await axios.post(
+        link,
+        post,
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+    )).data;
+    return response;
+}
+
+async function deletePosts(postId) {
+    const response = (await axios.delete(link + postId)).data;
+    return response;
+}
 
 function addPostForm(event) {
     event.preventDefault();
@@ -134,53 +183,17 @@ function addPostForm(event) {
     );
 }
 
-//---CERINTA 2---
-var editUserId = document.getElementById("editpostUserID");
-var editTitle = document.getElementById("editpostTitle");
-var editBody = document.getElementById("editpostBody");
 
-function fillEditForm(postId) {
-    getSelectedPost(postId).then(resp => {
-        //console.log(resp);
-        editUserId.value = resp.userId;
-        editTitle.value = resp.title;
-        editBody.value = resp.body;
-        return postId;
-    }).catch(err => console.log(err));
-}
-
-
-function editPostForm(event) {
-    event.preventDefault();
-    
-    var newUserID = editUserId.value;
-    var newTitle = editTitle.value;
-    var newBody = editBody.value;
-
-    if (!newUserID || !newTitle || !newBody || newUserID <= 0) {
-        return;
-    }
-
-}
-
-function callGetPosts() {
-    getPosts().then(posts => renderTable(posts))
-        .catch(err => console.log(err));
-}
-
-
-function callCreatePost() {
-    createPost(
-        { id: 101, userId: 101, title: "titlu post", body: "body post" }).then(post => console.log(post)).catch(err => console.log(err));
+function callCreatePost(post) {
+    createPost(post).then(post => console.log(post)).catch(err => console.log(err));
 }
 
 function callCreatePostwithInsert(post) {
-    createPost(post).then(post => {
-        getPosts().then(posts => {
-            posts.push(post);
-            renderTable(posts);
-        });
-    })
+    //push post creat catre array, nu se mai apeleaza callGetPosts
+    createPost(post).then(Posts => {
+        Posts.push(post);
+        renderTable(Posts);
+    }).catch(err => console.log(err));
 }
 
 function callDeletePosts() {
