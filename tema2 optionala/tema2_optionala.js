@@ -6,11 +6,18 @@ b) Să se implementeze mecanismul de edit, folosind principiile mecanismului de 
     - Crearea unui buton de edit, langa cel de delete DONE
     - Crearea unui form ce va primi și va edita informațiile obiectului curent DONE
     - Actualizarea informațiilor și reconstruirea tabelului*/
-
 const link = "https://jsonplaceholder.typicode.com/posts/";
 
 
-//cerinta 1
+/*var tablePosts = getPosts().
+    then(posts => {
+        console.log(posts)
+        renderTable(posts);
+    })
+    .catch(err => console.log(err));
+ 
+*/
+
 async function getPosts() {
     try {
         const posts = (await axios.get(link)).data;
@@ -20,10 +27,6 @@ async function getPosts() {
         console.log(err);
     }
 }
-
-var posts = getPosts().
-    then(posts => renderTable(posts))
-    .catch(err => console.log(err));
 
 async function createPost(post) {
     const response = (await axios.post(
@@ -42,6 +45,12 @@ async function deletePosts(postId) {
     const response = (await axios.delete(link + postId)).data;
     return response;
 }
+
+async function editPost(postId) {
+    const response = (await axios.get(link + postId)).data;
+    return response;
+}
+
 
 function renderTable(posts) {
     const existentTable = document.getElementById("renderTable");
@@ -64,7 +73,6 @@ function renderTable(posts) {
 
     posts.forEach((post, index, self) => {
         var bodyRow = document.createElement("tr");
-
         for (prop in post) {
             var bodyCell = document.createElement("td");
             bodyCell.appendChild(document.createTextNode(post[prop]));
@@ -83,6 +91,19 @@ function renderTable(posts) {
 
         deleteButtonCell.appendChild(deletebutton);
         bodyRow.appendChild(deleteButtonCell);
+
+        var editButtonCell = document.createElement("td");
+        var editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+
+        editButton.addEventListener("click", () => {
+            callFillEditForm(post.id);
+            //renderTable(self);
+        })
+
+        editButtonCell.appendChild(editButton);
+        bodyRow.appendChild(editButtonCell);
+
         tableBody.appendChild(bodyRow);
     });
 
@@ -94,9 +115,10 @@ function renderTable(posts) {
     document.body.appendChild(table);
 }
 
+
 function addPostForm(event) {
     event.preventDefault();
-    const userId = document.getElementById("postUserID").value;
+    const userId = document.getElementById("postUserId").value;
     const title = document.getElementById("postTitle").value;
     const body = document.getElementById("postBody").value;
 
@@ -105,19 +127,51 @@ function addPostForm(event) {
     }
 
     callCreatePostwithInsert(
-        { id: 11, userId: userId, title: title, body: body }
+        { id: 101, userId: userId, title: title, body: body }
     );
 }
 
+function submitEditPost(event) {
+    event.preventDefault();
+
+    
+}
+
+function callGetPosts() {
+    getPosts().then(posts => renderTable(posts))
+        .catch(err => console.log(err));
+}
+
+
+function callCreatePost() {
+    createPost(
+        { id: 101, userId: 101, title: "titlu post", body: "body post" }).then(post => console.log(post)).catch(err => console.log(err));
+}
+
 function callCreatePostwithInsert(post) {
-    createPost(post).then(posts => {
-        posts.push(post); //adaugam un nou post - ne folosim de variabila in care am stocat array-ul de posts
-        renderTable(posts);
-    });
+    createPost(post).then(post => {
+        getPosts().then(posts => {
+            posts.push(post);
+            renderTable(posts);
+        });
+    })
 }
 
 function callDeletePosts() {
     deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
+}
+
+function callFillEditForm(postId) {
+    editPost(postId).then(resp => {
+        //console.log(resp);
+        var editUserId = document.getElementById("editpostUserID");
+        var editTitle = document.getElementById("editpostTitle");
+        var editBody = document.getElementById("editpostBody");
+        editUserId.value = resp.userId;
+        editTitle.value = resp.title;
+        editBody.value = resp.body;
+        return resp;
+    }).catch(err => console.log(err));
 }
 
 function callDeletePost(postId) {

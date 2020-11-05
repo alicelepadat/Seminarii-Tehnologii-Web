@@ -9,13 +9,13 @@
     <h1>Seminar 5</h1>
     <h2>Tema 2 - optionala</h2>
     <div>
-        <button id="showPosts">ShowPosts</button>
+        <button id="showPosts" onclick="callGetPosts()">ShowPosts</button>
     </div>
     <div>
         <form id="addPostForm">
             <h4>Add post or click on a post to edit it.</h4>
             <label>User ID</label>
-            <input type="number" id="postUserID"></input>
+            <input type="number" id="postUserId"></input>
             <label>Title</label>
             <input type="text" id="postTitle"></input>
             <label>Body</label>
@@ -31,7 +31,7 @@
             <input type="text" id="editpostTitle"></input>
             <label>Body</label>
             <input type="text" id="editpostBody"></input>
-            <button id="editPostButton">Edit</button>
+            <button id="editPostButton" onclick="submitEditPost(event)">Edit</button>
         </form>
 
     </div>
