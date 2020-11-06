@@ -99,6 +99,7 @@ function callGetPosts() {
         .catch(err => console.log(err));
 }
 
+
 function callCreatePost() {
     createPost(
         { id: 101, userId: 101, title: "titlu post", body: "body post" }).then(post => console.log(post)).catch(err => console.log(err));
@@ -112,6 +113,7 @@ function callCreatePostwithInsert(post) {
         });
     })
 }
+
 
 function callDeletePosts() {
     deletePosts().then(resp => console.log(resp)).catch(err => console.log(err));
