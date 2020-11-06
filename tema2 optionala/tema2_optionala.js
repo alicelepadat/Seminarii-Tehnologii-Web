@@ -32,13 +32,7 @@ function callGetPosts() {
 //---CERINTA 1---
 
 //---CERINTA 2---
-var selectedPost = []; //ultimul post selectat din tabel
-
-async function getSelectedPost(postId) {
-    const response = (await axios.get(link + postId)).data;
-    return response;
-}
-
+var selectedPost = []; //post-ul selectat din tabel
 var editUserId = document.getElementById("editpostUserID");
 var editTitle = document.getElementById("editpostTitle");
 var editBody = document.getElementById("editpostBody");
@@ -50,11 +44,16 @@ async function putPost(post) {
 }
 
 function callPutPost(post, index) {
-        putPost(post).then(post => {
-            //console.log(post);
-            Posts[index] = post; //retinem post-ul pe care vrem sa il modificam 
-            renderTable(Posts);
-        }).catch(err => console.log(err));
+    putPost(post).then(post => {
+        //console.log(post);
+        Posts[index] = post; //retinem post-ul pe care vrem sa il modificam 
+        renderTable(Posts);
+    }).catch(err => console.log(err));
+}
+
+async function getSelectedPost(postId) {
+    const response = (await axios.get(link + postId)).data;
+    return response;
 }
 
 function fillEditForm(postId) {
@@ -150,6 +149,7 @@ function renderTable(posts) {
     document.body.appendChild(table);
 }
 //---CERINTA 2---
+
 
 async function createPost(post) {
     const response = (await axios.post(
