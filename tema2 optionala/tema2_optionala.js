@@ -191,10 +191,7 @@ function callCreatePost(post) {
 
 function callCreatePostwithInsert(post) {
     //push post creat catre array, nu se mai apeleaza callGetPosts
-    createPost(post).then(Posts => {
-        Posts.push(post);
-        renderTable(Posts);
-    }).catch(err => console.log(err));
+    createPost(post).then(Posts.push(post)).then(renderTable(Posts)).catch(err => console.log(err));
 }
 
 function callDeletePosts() {
