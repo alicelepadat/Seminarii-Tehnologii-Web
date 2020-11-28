@@ -1,0 +1,16 @@
+--mssql:
+	-npm init
+	-npm install express
+	-npm install cors
+	-npm install body-parser
+--sequelize:
+	-npm install sequelize
+
+Sequelize este un ORM (object relational mapping) 
+		fol in limbajele orientate pe obiect
+		pt a transpune query-urile din bd in cod
+		(o baza de date virtuala pe care o cream in cod)
+		query-ul vor fi executate de orm si nu e nevoie sa ni le definim noi
+
+!!Exporturile care nu contin { } se numesc exporturi default 
+	si le putem numi cum vrem
