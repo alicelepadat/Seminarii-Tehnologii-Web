@@ -7,13 +7,10 @@ function addTokens(input, tokens) {
                         input = input.replace("...", "${" + `${tokens[i].tokenName}` + "}")
                     }
                     return input; //test4 + test5
-                }
-                else throw new Error("Invalid array format!")
+                } else throw new Error("Invalid array format!")
             }
-        }
-        else throw new Error("Input should have at least 6 characters!");
-    }
-    else throw new Error("Invalid input!");
+        } else throw new Error("Input should have at least 6 characters!");
+    } else throw new Error("Invalid input!");
 }
 
 const app = {
