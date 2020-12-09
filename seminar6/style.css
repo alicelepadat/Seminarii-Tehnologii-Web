@@ -1,0 +1,208 @@
+/*selectori CSS*/
+
+/*---main selectors---*/
+/*ramane stilul acesta ptc id-ul are specificitate mai mare*/
+#mainParagraph { 
+    background-color: tomato;
+    color: white;
+}
+
+.mainClass {
+    background-color: teal;
+    color: white;
+}
+
+p {
+    background-color: blue;
+    color: white;
+}
+
+/*---combining selectors + universal---*/
+.wrapper #mainParagraph {
+    background-color: aqua;
+    color: black;
+}
+
+#mainDiv .mainClass {
+    background-color:  brown;
+    color: white;
+    padding: 5px;
+}
+
+.wrapper+p {
+    background-color: hotpink;
+    padding: 10px;
+}
+
+.wrapper~p {
+    background-color: hotpink;
+    padding: 10px;
+}
+
+/*select child of wrapper class*/
+.wrapper>p {
+    background-color: lawngreen;
+}
+
+
+/*---selector de atribute---*/
+a[href] {
+    background-color: violet;
+    color: white;
+}
+
+/*operatori pt selectori de atribute:
+    ^= incepe cu un string
+    $= se termina cu un string
+    *= contine un string
+*/
+a[target="_blank"] {
+    background-color: seagreen;
+    color: white;
+}
+/**/
+
+
+/*selector universal*/
+/*p {
+    background-color: violet;
+    color: white;
+    font-style: italic;
+    font-weight: bold;
+}*/
+
+/*---pseudo-clase - actioneaza ca clasele dpdv al specificitatii
+ si pseudo-elemente - actioneaza ca elementele dpdv al specificitatii
+ */
+ /*pseudo-clase*/
+a:link {
+    background-color: tan;
+    color: brown;
+    padding: 10px;
+}
+
+a:visited {
+    background-color: cadetblue;
+    color: black;
+}
+
+a:hover {
+    background-color: green;
+    color: white;
+}
+
+a:active {
+    background-color: turquoise;
+    color: black;
+}
+
+a:focus {
+    background-color: sienna;
+    color: white;
+}
+
+.wrapper2 :first-child {
+    background-color: yellow;
+    color: black;
+}
+
+.wrapper2 :last-child {
+    background-color: chocolate;
+}
+
+/*se aplica doar daca un element are doar un copil*/
+.wrapper3 :only-child {
+    background-color: darkcyan;
+}
+
+/*nth-child poate primi 4 tipuri parametri:
+-un numar - al catelea copil
+-odd - toate elem impare; even - toate elem pare
+-o functie de tip ax+b (ex:2n+1 - select elem impare) (3n+2 - incepand cu al doilea elem din 3 in 3)
+*/
+
+.wrapper2 :nth-child(3n+2){ 
+    background-color: bisque;
+    color:black;
+}
+
+.wrapper2 :nth-last-child(3n+2){ /*de jos in sus, in oglinda fata de nth-child*/
+    background-color: crimson;
+    color: black;
+}
+
+.wrapper2 p:first-of-type {
+    background-color: black;
+    color: white;
+}
+
+.wrapper2 p:last-of-type {
+    background-color: gray;
+    color: white;
+}
+
+.wrapper3 p:only-of-type {
+    background-color: aquamarine;
+    color: black;
+}
+
+.wrapper2 :nth-of-type(odd){ 
+    background-color: hotpink;
+    color:black;
+}
+.wrapper2 :nth-last-of-type(even){ 
+    background-color: red;
+    color:black;
+}
+
+/*pseudo-elemente*/
+p::first-letter {
+    transform: uppercase;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.wrapper3 p::first-line { /*tranforma doar prima linie dintr un paragraf*/
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+::selection { /*aplica modificari asupra textului selectat*/
+    background-color: indianred;
+    color: wheat;
+}
+
+p::before {
+    content: attr(name);
+    font-style: italic;
+}
+
+p::after {
+    content: " This is after";
+    font-style: italic;
+}
+
+/*pseudo-elemente mai speciale sa zicem asa*/
+/*pe elementele care nu indeplinesc conditiile primite ca param*/
+p:not(#mainParagraph){
+    background-color: cornflowerblue;
+    color: black;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+p:empty {
+    background-color: burlywood;
+    font-weight: lighter;
+}
+
+p:target{
+    background-color: crimson;
+    border: 3px solid black;
+    font-style: italic;
+}
+
+/*css dinner*/
