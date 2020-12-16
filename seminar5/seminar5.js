@@ -4,8 +4,7 @@ async function getPosts() {
     try {
         const posts = (await axios.get(link)).data;
         return posts;
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 }
@@ -13,8 +12,7 @@ async function getPosts() {
 async function createPost(post) {
     const response = (await axios.post(
         link,
-        post,
-        {
+        post, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -55,7 +53,7 @@ function renderTable(posts) {
             bodyCell.appendChild(document.createTextNode(post[prop]));
             bodyRow.appendChild(bodyCell);
         }
-    
+
         var deleteButtonCell = document.createElement("td");
         var deletebutton = document.createElement("button");
         deletebutton.textContent = "Delete";
@@ -79,19 +77,17 @@ function renderTable(posts) {
     document.body.appendChild(table);
 }
 
-function postForm(event){
+function postForm(event) {
     event.preventDefault();
-    const userId=document.getElementById("postUserId").value;
-    const title=document.getElementById("postTitle").value;
-    const body=document.getElementById("postBody").value;
+    const userId = document.getElementById("postUserId").value;
+    const title = document.getElementById("postTitle").value;
+    const body = document.getElementById("postBody").value;
 
-    if(!userId || !title || !body || userId <= 0) {
+    if (!userId || !title || !body || userId <= 0) {
         return;
     }
 
-    callCreatePostwithInsert(
-        {id: 101, userId: userId, title: title, body: body}
-    );
+    callCreatePostwithInsert({ id: 101, userId: userId, title: title, body: body });
 }
 
 function callGetPosts() {
@@ -101,13 +97,12 @@ function callGetPosts() {
 
 
 function callCreatePost() {
-    createPost(
-        { id: 101, userId: 101, title: "titlu post", body: "body post" }).then(post => console.log(post)).catch(err => console.log(err));
+    createPost({ id: 101, userId: 101, title: "titlu post", body: "body post" }).then(post => console.log(post)).catch(err => console.log(err));
 }
 
 function callCreatePostwithInsert(post) {
     createPost(post).then(post => {
-        getPosts().then(posts=>{
+        getPosts().then(posts => {
             posts.push(post);
             renderTable(posts);
         });
@@ -123,7 +118,7 @@ function callDeletePost(postId) {
     deletePosts(postId).then(resp => console.log(resp)).catch(err => console.log(err));
 }
 
-//tema sa scapam de gotPosts -> tre sa ne luam o variabila in care sa stocam postarile
+//tema sa scapam de getPosts -> tre sa ne luam o variabila in care sa stocam postarile
 //ca sa nu mai apelam getPosts
 //implemetarea put ul -> ne mai facem un form exact ca asta din seminar
 //punem un buton de edit -> cand apasam pe el ni se va popula campurile cu inf id necesar si se va edita in timp real inregistrarea cu id respectiv
