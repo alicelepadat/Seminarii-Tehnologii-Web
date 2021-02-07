@@ -1,7 +1,7 @@
 //ne definim configurarea pe care o folosim in accesul bd
 
 export const config = {
-        user: "sa",
+        user: "root",
         password: "sa",
         server: "DESKTOP-CR73G22\\SQLEXPRESS",
         database: "seminar8TW",

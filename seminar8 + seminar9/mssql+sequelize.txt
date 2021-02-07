@@ -14,3 +14,8 @@ Sequelize este un ORM (object relational mapping)
 
 !!Exporturile care nu contin { } se numesc exporturi default 
 	si le putem numi cum vrem
+
+--mysql
+	1. am modificat in "sequelize.js" configurarea pt mysql
+	2. am comentat functia de authenticate in "sequelize.js" si am lasat o doar pe cea de sync
+	3. in "sequelizeApi.js" am deschis conexiunea la mysql

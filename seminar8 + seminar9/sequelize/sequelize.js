@@ -1,18 +1,31 @@
 import Sequelize from 'sequelize'; //export default
 
 //configurari
-const sequelize = new Sequelize(
-    "seminar8TW", "sa", "sa", {
-        //informatiile serverului catre care sa se conecteze
-        host: "localhost",
-        dialect: "mssql",
-        dialectOptions: {
-            options: {
-                trustedConnection: true,
-                enableArithAbort: true
-            }
-        }
-    });
+// const sequelize = new Sequelize(
+//     "seminar8TW", "sa", "sa", {
+//         //informatiile serverului catre care sa se conecteze
+//         host: "localhost",
+//         dialect: "mssql",
+//         dialectOptions: {
+//             options: {
+//                 trustedConnection: true,
+//                 enableArithAbort: true
+//             }
+//         }
+//     });
+
+//-------CONFIG MY SQL
+const sequelize = new Sequelize({
+    dialect: 'mysql',
+    database: 'SeminarMYSQL',
+    username: "root",  
+    password: "alice",
+    logging: false,
+    define: {
+        timestamps: false,
+        freezeTableName: true
+    }
+})
 
 //crearea unei entitati(tabela)
 export const Orders = sequelize.define('Orders', {
@@ -95,11 +108,11 @@ Orders.hasMany(Products, { foreignKey: 'OrderId', foreignKeyConstraint: true });
 //Products.belongsTo(Orders, { foreignKey: 'OrderId', foreignKeyConstraint: true });
 
 //conectarea sequelize
-sequelize.authenticate()
-    .then(() => {
-        console.log('Sequelize has connected successfully to the database!')
-    })
-    .catch(err => console.error('Unable to connect to the database: ' + err));
+// sequelize.authenticate()
+//     .then(() => {
+//         console.log('Sequelize has connected successfully to the database!')
+//     })
+//     .catch(err => console.error('Unable to connect to the database: ' + err));
 
 sequelize
     .sync({ force: false, alter: false })

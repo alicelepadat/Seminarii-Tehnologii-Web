@@ -1,9 +1,25 @@
 import { app, router } from "./init/serverinit.js"
 import { Authors, Books, Orders, Products } from "./sequelize/sequelize.js"
 import seq from "sequelize"
-import { request } from "express";
+import mysql from 'mysql2/promise';
 
-//backend functional ORM pana la vacanta=> proiect, doar prezentat
+let conn;
+
+//deschidere conexiune mysql
+mysql.createConnection({
+    user : "root",
+    password : "alice"
+})
+.then((connection) => {
+    conn = connection;
+    return connection.query('CREATE DATABASE IF NOT EXISTS SeminarMYSQL')
+})
+.then(() => {
+    return conn.end()
+})
+.catch((err) => {
+    console.warn(err.stack)
+})
 
 router.route("/sequelize/orders").get((request, response) => {
     Orders.findAll().then(result => response.json(result));
@@ -119,3 +135,4 @@ router.route('/sequelize/AuthorsXBooks').get((req, res) => {
 
 var port = 8080;
 app.listen(port);
+console.log("API listening to " + port);
